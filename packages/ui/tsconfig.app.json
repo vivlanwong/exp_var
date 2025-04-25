@@ -23,8 +23,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "types": ["vite/client"],
-    // "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
+    "types": ["vite/client", "./src/types/global"],
+    // "typeRoots": ["./node_modules/@types",]
   },
   "include": ["src"]
 }
