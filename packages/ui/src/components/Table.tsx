@@ -1,9 +1,10 @@
 import { customElement } from "solid-element";
 import { PropsDefinitionInput } from "component-register";
-import { createEffect, onMount } from "solid-js";
+import { createEffect, For, onMount } from "solid-js";
 
 interface TableElement {
-    a: string
+    heads?: Array<string>;
+    rows?: Array<Array<string>>;
 }
 
 interface TableEvents {
@@ -11,42 +12,51 @@ interface TableEvents {
 }
 
 var Props: PropsDefinitionInput<TableElement> = {
-
-    a: {
-        value: "1",
-        attribute: "a",
-        notify: true,
-        reflect: true,
-        parse: true
-    }
+    heads:[],
+    rows:[]
 }
 var el_name = "x-table"
 var component = customElement(el_name, Props, (props, { element }) => {
-    console.log(element.onclick1)
+    console.log(props)
 
-    var slot:HTMLSlotElement 
+    // var slot:HTMLSlotElement 
     onMount(() => {
-        slot.addEventListener("slotchange",function(e){
-            let nodes = slot.assignedNodes();
-            nodes.forEach((item)=>{
-                var el=item as HTMLElement
-                createEffect(()=>{
-                    el.setAttribute("a",props.a)
-                    // el.props=props
-                })
-                // // if("setAttribute" in  item ){
-                //     item.setAttribute("b","1")
-                // }
-                    
-            })
-            console.log(
-              `Element in Slot "${slot.name}" changed to "${slot.outerHTML}".`,
-            );
-        })
+        // slot.addEventListener("slotchange",function(e){
+        //     let nodes = slot.assignedNodes();
+        //     nodes.forEach((item)=>{
+        //         var el=item as HTMLElement
+        //         createEffect(()=>{
+        //             el.setAttribute("a",props.a)
+        //             // el.props=props
+        //         })
+        //         // // if("setAttribute" in  item ){
+        //         //     item.setAttribute("b","1")
+        //         // }
+
+        //     })
+        //     console.log(
+        //       `Element in Slot "${slot.name}" changed to "${slot.outerHTML}".`,
+        //     );
+        // })
     })
     return (
         <>
-            <button onclick={() => {
+            <table>
+                <tbody>
+                    <tr>
+                        <For each={props.heads} fallback={<div>Loading...</div>}>
+                            {(item) => <td>{item}</td>}
+                        </For>
+
+                    </tr>
+                    <For each={props.rows} fallback={<div>Loading...</div>}>
+                        {(item) => <x-row style={{display:"table-row"}} class="row" data={item}></x-row>}
+                    </For>
+
+
+                </tbody>
+            </table>
+            {/* <button onclick={() => {
                 if ("dispatchEvent" in element) {
                     element.dispatchEvent(new Event("click1"))
 
@@ -54,7 +64,7 @@ var component = customElement(el_name, Props, (props, { element }) => {
 
             }}>aaa</button>
             <slot ref={(it)=>{slot=it}} name="a" ></slot>
-            <div>{props.a}</div>
+            <div>{props.a}</div> */}
         </>
     )
 })

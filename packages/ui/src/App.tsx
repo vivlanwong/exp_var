@@ -61,13 +61,15 @@ const App: Component = () => {
     green: GreenDiv,
     blue: BlueDiv,
   } 
-  
+  var [heads, setHeads]=createSignal(["a","b","c"])
+  var [rows]=createSignal([
+    ["1","2","3"],
+    ["1","2","3"],
+    ["1","2","3"],
+  ] ) 
   return (
     <>
- <x-table a={count().toString()} on:click1={(e)=>{
-  console.log("click1")
- }}>
-  <x-row slot="a" a="0"></x-row> 
+ <x-table heads={heads()} rows={rows()}> 
 
  </x-table>
 

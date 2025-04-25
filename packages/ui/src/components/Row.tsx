@@ -1,7 +1,8 @@
 import { customElement } from "solid-element";
-import { PropsDefinitionInput } from "component-register";
+import {For} from "solid-js"
+import { PropsDefinitionInput, register } from "component-register";
 interface RowElement {
-    a: string
+    data?: Array<string>
 }
 
 interface TableEvents {
@@ -9,9 +10,9 @@ interface TableEvents {
 }
 var Props: PropsDefinitionInput<RowElement> = {
 
-    a: {
-        value: "1",
-        attribute: "a",
+    data: {
+        value: [],
+        attribute: "data",
         notify: true,
         reflect: true,
         parse: true
@@ -20,8 +21,21 @@ var Props: PropsDefinitionInput<RowElement> = {
 
 export type attrs = WebComponentAttributes<RowElement, TableEvents>
 
-var component = customElement("x-row", Props, (props, { element }) => {
-    return <div>{props.a}</div>
+var component = customElement("x-row", Props,  (props, { element }) => {
+    return (
+        <> 
+        {<style  >
+        
+            :host{
+                `display:table-row;` 
+            }  
+        </style>
+}
+        <For each={props.data} fallback={<div>Loading...</div>}>
+                                    {(item) => <td>{item}</td>}
+                                </For> 
+        </>
+    )
 })
 
 export { component }
